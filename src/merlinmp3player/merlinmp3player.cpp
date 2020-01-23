@@ -396,9 +396,23 @@ void eServiceMerlinMP3Player::gstPoll(const int&)
 
 eAutoInitPtr<eServiceFactoryMerlinMP3Player> init_eServiceFactoryMerlinMP3Player(eAutoInitNumbers::service+1, "eServiceFactoryMerlinMP3Player");
 
+#if PY_MAJOR_VERSION <= 2
+
 PyMODINIT_FUNC
 initmerlinmp3player(void)
 {
 	Py_InitModule("merlinmp3player", NULL);
 }
 
+#else
+
+static struct PyModuleDef moduledef = {
+	PyModuleDef_HEAD_INIT, "merlinmp3player", 0, -1,
+};
+
+PyObject *PyInit_merlinmp3player()
+{
+	return PyModule_Create(&moduledef);
+}
+
+#endif
